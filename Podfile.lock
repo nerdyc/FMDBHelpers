@@ -1,0 +1,20 @@
+PODS:
+  - Expecta (0.3.0)
+  - FMDB (2.3):
+    - FMDB/standard
+  - FMDB/common (2.3)
+  - FMDB/standard (2.3):
+    - FMDB/common
+  - Specta (0.2.1)
+
+DEPENDENCIES:
+  - Expecta
+  - FMDB (~> 2.3)
+  - Specta
+
+SPEC CHECKSUMS:
+  Expecta: ce8a51b9fad15a2cd573b291cb2909aaed865350
+  FMDB: 31ec26773c7f7b7890a6038235a1f2bbd933a7cb
+  Specta: 9141310f46b1f68b676650ff2854e1ed0b74163a
+
+COCOAPODS: 0.32.1

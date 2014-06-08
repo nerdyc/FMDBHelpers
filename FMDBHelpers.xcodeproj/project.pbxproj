@@ -1,0 +1,595 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		35DD47CFC62A419383EA8391 /* libPods-FMDBHelpersTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 92CB0D26B121470297086E28 /* libPods-FMDBHelpersTests.a */; };
+		AC814C490A284051ADBCDC73 /* libPods-FMDBHelpers.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E2DEDCDF9474FB7BC506C0D /* libPods-FMDBHelpers.a */; };
+		CD2172281943E2A300917A9A /* FMResultSet+FMDBHelpers.h in Headers */ = {isa = PBXBuildFile; fileRef = CD2172261943E2A300917A9A /* FMResultSet+FMDBHelpers.h */; };
+		CD2172291943E2A300917A9A /* FMResultSet+FMDBHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = CD2172271943E2A300917A9A /* FMResultSet+FMDBHelpers.m */; };
+		CD9BF734193B918200F110AD /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD9BF733193B918200F110AD /* Cocoa.framework */; };
+		CD9BF73E193B918200F110AD /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = CD9BF73C193B918200F110AD /* InfoPlist.strings */; };
+		CD9BF749193B918200F110AD /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD9BF748193B918200F110AD /* XCTest.framework */; };
+		CD9BF74A193B918200F110AD /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD9BF733193B918200F110AD /* Cocoa.framework */; };
+		CD9BF74D193B918200F110AD /* FMDBHelpers.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD9BF730193B918200F110AD /* FMDBHelpers.framework */; };
+		CD9BF753193B918200F110AD /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = CD9BF751193B918200F110AD /* InfoPlist.strings */; };
+		CD9BF763193B939500F110AD /* FMDatabase+FMDBHelpers.h in Headers */ = {isa = PBXBuildFile; fileRef = CD9BF761193B939500F110AD /* FMDatabase+FMDBHelpers.h */; };
+		CD9BF764193B939500F110AD /* FMDatabase+FMDBHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = CD9BF762193B939500F110AD /* FMDatabase+FMDBHelpers.m */; };
+		CD9BF766193BA59700F110AD /* FMDatabase_FMDBHelpersSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = CD9BF765193BA59700F110AD /* FMDatabase_FMDBHelpersSpec.m */; };
+		CD9BF769193BB96800F110AD /* FMDatabase+FMDBSpecHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = CD9BF768193BB96800F110AD /* FMDatabase+FMDBSpecHelpers.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		CD9BF74B193B918200F110AD /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CD9BF727193B918200F110AD /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = CD9BF72F193B918200F110AD;
+			remoteInfo = FMDBHelpers;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		6DF51269A7FB4B7A9346059B /* Pods-FMDBHelpersTests.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FMDBHelpersTests.xcconfig"; path = "Pods/Pods-FMDBHelpersTests.xcconfig"; sourceTree = "<group>"; };
+		7E2DEDCDF9474FB7BC506C0D /* libPods-FMDBHelpers.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-FMDBHelpers.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		92CB0D26B121470297086E28 /* libPods-FMDBHelpersTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-FMDBHelpersTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		CD2172261943E2A300917A9A /* FMResultSet+FMDBHelpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "FMResultSet+FMDBHelpers.h"; sourceTree = "<group>"; };
+		CD2172271943E2A300917A9A /* FMResultSet+FMDBHelpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "FMResultSet+FMDBHelpers.m"; sourceTree = "<group>"; };
+		CD21722A1943E6FE00917A9A /* FMDBHelpers.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FMDBHelpers.h; sourceTree = "<group>"; };
+		CD9BF730193B918200F110AD /* FMDBHelpers.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FMDBHelpers.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		CD9BF733193B918200F110AD /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		CD9BF736193B918200F110AD /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		CD9BF737193B918200F110AD /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		CD9BF738193B918200F110AD /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		CD9BF73B193B918200F110AD /* FMDBHelpers-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "FMDBHelpers-Info.plist"; sourceTree = "<group>"; };
+		CD9BF73D193B918200F110AD /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		CD9BF73F193B918200F110AD /* FMDBHelpers-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "FMDBHelpers-Prefix.pch"; sourceTree = "<group>"; };
+		CD9BF747193B918200F110AD /* FMDBHelpersTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FMDBHelpersTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		CD9BF748193B918200F110AD /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		CD9BF750193B918200F110AD /* FMDBHelpersTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "FMDBHelpersTests-Info.plist"; sourceTree = "<group>"; };
+		CD9BF752193B918200F110AD /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		CD9BF761193B939500F110AD /* FMDatabase+FMDBHelpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "FMDatabase+FMDBHelpers.h"; sourceTree = "<group>"; };
+		CD9BF762193B939500F110AD /* FMDatabase+FMDBHelpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "FMDatabase+FMDBHelpers.m"; sourceTree = "<group>"; };
+		CD9BF765193BA59700F110AD /* FMDatabase_FMDBHelpersSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabase_FMDBHelpersSpec.m; sourceTree = "<group>"; };
+		CD9BF767193BB96800F110AD /* FMDatabase+FMDBSpecHelpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "FMDatabase+FMDBSpecHelpers.h"; sourceTree = "<group>"; };
+		CD9BF768193BB96800F110AD /* FMDatabase+FMDBSpecHelpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "FMDatabase+FMDBSpecHelpers.m"; sourceTree = "<group>"; };
+		E6607B72ABD04FE1891F93E6 /* Pods-FMDBHelpers.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FMDBHelpers.xcconfig"; path = "Pods/Pods-FMDBHelpers.xcconfig"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		CD9BF72C193B918200F110AD /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CD9BF734193B918200F110AD /* Cocoa.framework in Frameworks */,
+				AC814C490A284051ADBCDC73 /* libPods-FMDBHelpers.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CD9BF744193B918200F110AD /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CD9BF74A193B918200F110AD /* Cocoa.framework in Frameworks */,
+				CD9BF749193B918200F110AD /* XCTest.framework in Frameworks */,
+				CD9BF74D193B918200F110AD /* FMDBHelpers.framework in Frameworks */,
+				35DD47CFC62A419383EA8391 /* libPods-FMDBHelpersTests.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		CD9BF726193B918200F110AD = {
+			isa = PBXGroup;
+			children = (
+				CD9BF739193B918200F110AD /* FMDBHelpers */,
+				CD9BF74E193B918200F110AD /* FMDBHelpersTests */,
+				CD9BF732193B918200F110AD /* Frameworks */,
+				CD9BF731193B918200F110AD /* Products */,
+				E6607B72ABD04FE1891F93E6 /* Pods-FMDBHelpers.xcconfig */,
+				6DF51269A7FB4B7A9346059B /* Pods-FMDBHelpersTests.xcconfig */,
+			);
+			sourceTree = "<group>";
+		};
+		CD9BF731193B918200F110AD /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				CD9BF730193B918200F110AD /* FMDBHelpers.framework */,
+				CD9BF747193B918200F110AD /* FMDBHelpersTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		CD9BF732193B918200F110AD /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				CD9BF733193B918200F110AD /* Cocoa.framework */,
+				CD9BF748193B918200F110AD /* XCTest.framework */,
+				CD9BF735193B918200F110AD /* Other Frameworks */,
+				7E2DEDCDF9474FB7BC506C0D /* libPods-FMDBHelpers.a */,
+				92CB0D26B121470297086E28 /* libPods-FMDBHelpersTests.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		CD9BF735193B918200F110AD /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				CD9BF736193B918200F110AD /* Foundation.framework */,
+				CD9BF737193B918200F110AD /* CoreData.framework */,
+				CD9BF738193B918200F110AD /* AppKit.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		CD9BF739193B918200F110AD /* FMDBHelpers */ = {
+			isa = PBXGroup;
+			children = (
+				CD9BF75F193B92DA00F110AD /* Sources */,
+				CD9BF73A193B918200F110AD /* Supporting Files */,
+			);
+			path = FMDBHelpers;
+			sourceTree = "<group>";
+		};
+		CD9BF73A193B918200F110AD /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				CD9BF73B193B918200F110AD /* FMDBHelpers-Info.plist */,
+				CD9BF73C193B918200F110AD /* InfoPlist.strings */,
+				CD9BF73F193B918200F110AD /* FMDBHelpers-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		CD9BF74E193B918200F110AD /* FMDBHelpersTests */ = {
+			isa = PBXGroup;
+			children = (
+				CD9BF760193B931500F110AD /* SpecHelpers */,
+				CD9BF75E193B92D000F110AD /* Specs */,
+				CD9BF74F193B918200F110AD /* Supporting Files */,
+			);
+			path = FMDBHelpersTests;
+			sourceTree = "<group>";
+		};
+		CD9BF74F193B918200F110AD /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				CD9BF750193B918200F110AD /* FMDBHelpersTests-Info.plist */,
+				CD9BF751193B918200F110AD /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		CD9BF75E193B92D000F110AD /* Specs */ = {
+			isa = PBXGroup;
+			children = (
+				CD9BF765193BA59700F110AD /* FMDatabase_FMDBHelpersSpec.m */,
+			);
+			name = Specs;
+			path = ../Specs;
+			sourceTree = "<group>";
+		};
+		CD9BF75F193B92DA00F110AD /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				CD9BF761193B939500F110AD /* FMDatabase+FMDBHelpers.h */,
+				CD9BF762193B939500F110AD /* FMDatabase+FMDBHelpers.m */,
+				CD21722A1943E6FE00917A9A /* FMDBHelpers.h */,
+				CD2172261943E2A300917A9A /* FMResultSet+FMDBHelpers.h */,
+				CD2172271943E2A300917A9A /* FMResultSet+FMDBHelpers.m */,
+			);
+			name = Sources;
+			path = ../Sources;
+			sourceTree = "<group>";
+		};
+		CD9BF760193B931500F110AD /* SpecHelpers */ = {
+			isa = PBXGroup;
+			children = (
+				CD9BF767193BB96800F110AD /* FMDatabase+FMDBSpecHelpers.h */,
+				CD9BF768193BB96800F110AD /* FMDatabase+FMDBSpecHelpers.m */,
+			);
+			name = SpecHelpers;
+			path = ../SpecHelpers;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		CD9BF72D193B918200F110AD /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CD2172281943E2A300917A9A /* FMResultSet+FMDBHelpers.h in Headers */,
+				CD9BF763193B939500F110AD /* FMDatabase+FMDBHelpers.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		CD9BF72F193B918200F110AD /* FMDBHelpers */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CD9BF758193B918200F110AD /* Build configuration list for PBXNativeTarget "FMDBHelpers" */;
+			buildPhases = (
+				012213394563490A8547C5A7 /* Check Pods Manifest.lock */,
+				CD9BF72B193B918200F110AD /* Sources */,
+				CD9BF72C193B918200F110AD /* Frameworks */,
+				CD9BF72D193B918200F110AD /* Headers */,
+				CD9BF72E193B918200F110AD /* Resources */,
+				FDEBE4926EDD4FE78CAA886B /* Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = FMDBHelpers;
+			productName = FMDBHelpers;
+			productReference = CD9BF730193B918200F110AD /* FMDBHelpers.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		CD9BF746193B918200F110AD /* FMDBHelpersTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CD9BF75B193B918200F110AD /* Build configuration list for PBXNativeTarget "FMDBHelpersTests" */;
+			buildPhases = (
+				10306D473F334D06B3446125 /* Check Pods Manifest.lock */,
+				CD9BF743193B918200F110AD /* Sources */,
+				CD9BF744193B918200F110AD /* Frameworks */,
+				CD9BF745193B918200F110AD /* Resources */,
+				07BC85FA58024548A812785C /* Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				CD9BF74C193B918200F110AD /* PBXTargetDependency */,
+			);
+			name = FMDBHelpersTests;
+			productName = FMDBHelpersTests;
+			productReference = CD9BF747193B918200F110AD /* FMDBHelpersTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		CD9BF727193B918200F110AD /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0510;
+				ORGANIZATIONNAME = "Vulpine Labs LLC";
+				TargetAttributes = {
+					CD9BF746193B918200F110AD = {
+						TestTargetID = CD9BF72F193B918200F110AD;
+					};
+				};
+			};
+			buildConfigurationList = CD9BF72A193B918200F110AD /* Build configuration list for PBXProject "FMDBHelpers" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = CD9BF726193B918200F110AD;
+			productRefGroup = CD9BF731193B918200F110AD /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				CD9BF72F193B918200F110AD /* FMDBHelpers */,
+				CD9BF746193B918200F110AD /* FMDBHelpersTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		CD9BF72E193B918200F110AD /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CD9BF73E193B918200F110AD /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CD9BF745193B918200F110AD /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CD9BF753193B918200F110AD /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		012213394563490A8547C5A7 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		07BC85FA58024548A812785C /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Pods-FMDBHelpersTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		10306D473F334D06B3446125 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		FDEBE4926EDD4FE78CAA886B /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Pods-FMDBHelpers-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		CD9BF72B193B918200F110AD /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CD9BF764193B939500F110AD /* FMDatabase+FMDBHelpers.m in Sources */,
+				CD2172291943E2A300917A9A /* FMResultSet+FMDBHelpers.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CD9BF743193B918200F110AD /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CD9BF769193BB96800F110AD /* FMDatabase+FMDBSpecHelpers.m in Sources */,
+				CD9BF766193BA59700F110AD /* FMDatabase_FMDBHelpersSpec.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		CD9BF74C193B918200F110AD /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = CD9BF72F193B918200F110AD /* FMDBHelpers */;
+			targetProxy = CD9BF74B193B918200F110AD /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		CD9BF73C193B918200F110AD /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				CD9BF73D193B918200F110AD /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		CD9BF751193B918200F110AD /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				CD9BF752193B918200F110AD /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		CD9BF756193B918200F110AD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		CD9BF757193B918200F110AD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		CD9BF759193B918200F110AD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E6607B72ABD04FE1891F93E6 /* Pods-FMDBHelpers.xcconfig */;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_VERSION = A;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "FMDBHelpers/FMDBHelpers-Prefix.pch";
+				INFOPLIST_FILE = "FMDBHelpers/FMDBHelpers-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = framework;
+			};
+			name = Debug;
+		};
+		CD9BF75A193B918200F110AD /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E6607B72ABD04FE1891F93E6 /* Pods-FMDBHelpers.xcconfig */;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_VERSION = A;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "FMDBHelpers/FMDBHelpers-Prefix.pch";
+				INFOPLIST_FILE = "FMDBHelpers/FMDBHelpers-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = framework;
+			};
+			name = Release;
+		};
+		CD9BF75C193B918200F110AD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6DF51269A7FB4B7A9346059B /* Pods-FMDBHelpersTests.xcconfig */;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/FMDBHelpers.framework/Versions/A/FMDBHelpers";
+				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(inherited)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "FMDBHelpers/FMDBHelpers-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "FMDBHelpersTests/FMDBHelpersTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Debug;
+		};
+		CD9BF75D193B918200F110AD /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6DF51269A7FB4B7A9346059B /* Pods-FMDBHelpersTests.xcconfig */;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/FMDBHelpers.framework/Versions/A/FMDBHelpers";
+				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(inherited)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "FMDBHelpers/FMDBHelpers-Prefix.pch";
+				INFOPLIST_FILE = "FMDBHelpersTests/FMDBHelpersTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		CD9BF72A193B918200F110AD /* Build configuration list for PBXProject "FMDBHelpers" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CD9BF756193B918200F110AD /* Debug */,
+				CD9BF757193B918200F110AD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		CD9BF758193B918200F110AD /* Build configuration list for PBXNativeTarget "FMDBHelpers" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CD9BF759193B918200F110AD /* Debug */,
+				CD9BF75A193B918200F110AD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		CD9BF75B193B918200F110AD /* Build configuration list for PBXNativeTarget "FMDBHelpersTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CD9BF75C193B918200F110AD /* Debug */,
+				CD9BF75D193B918200F110AD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = CD9BF727193B918200F110AD /* Project object */;
+}
