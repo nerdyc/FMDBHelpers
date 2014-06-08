@@ -224,7 +224,7 @@ describe(@"- insertInto:columns:values:error:", ^{
 // ========== UPDATE ===================================================================================================
 #pragma mark - Update
 
-describe(@"- update:setValues:where:arguments:error:", ^{
+describe(@"- update:values:where:arguments:error:", ^{
   
   beforeEach(^{
     [database createTableWithName:@"people"
@@ -238,7 +238,7 @@ describe(@"- update:setValues:where:arguments:error:", ^{
   
   it(@"updates the values that match the where clause", ^{
     NSInteger numberUpdated = [database update:@"people"
-                                     setValues:@{ @"lastName": @"Gris" }
+                                     values:@{ @"lastName": @"Gris" }
                                          where:@"lastName = ?"
                                      arguments:@[ @"Ferris" ]];
     
@@ -253,7 +253,7 @@ describe(@"- update:setValues:where:arguments:error:", ^{
 
   it(@"updates all values when the where clause is missing", ^{
     NSInteger numberUpdated = [database update:@"people"
-                                     setValues:@{ @"lastName": @"Gris" }
+                                     values:@{ @"lastName": @"Gris" }
                                          where:nil
                                      arguments:nil];
     
@@ -269,7 +269,7 @@ describe(@"- update:setValues:where:arguments:error:", ^{
   
   it(@"returns 0 when no results match", ^{
     NSInteger numberUpdated = [database update:@"people"
-                                     setValues:@{ @"lastName": @"Gris" }
+                                     values:@{ @"lastName": @"Gris" }
                                          where:@"lastName = ?"
                                      arguments:@[ @"Gladstone" ]];
     expect(numberUpdated).to.equal(0);
@@ -278,7 +278,7 @@ describe(@"- update:setValues:where:arguments:error:", ^{
   it(@"returns -1 when there is an error", ^{
     NSError * error = nil;
     NSInteger numberUpdated = [database update:@"people"
-                                     setValues:@{ @"lastName": @"Gris" }
+                                     values:@{ @"lastName": @"Gris" }
                                          where:@"age = ?" // age is an unknown column
                                      arguments:@[ @21 ]
                                          error:&error];
@@ -289,7 +289,7 @@ describe(@"- update:setValues:where:arguments:error:", ^{
   
 });
 
-describe(@"- update:set:where:arguments:error:", ^{
+describe(@"- update:columns:expressions:where:arguments:error:", ^{
 
   beforeEach(^{
     [database createTableWithName:@"people"
@@ -303,8 +303,8 @@ describe(@"- update:set:where:arguments:error:", ^{
   
   it(@"updates values with the given expressions", ^{
     NSInteger numberUpdated = [database update:@"people"
-                                           set:@{ @"firstName": @"lower(firstName)",
-                                                  @"lastName":  @"upper(lastName)" }
+                                       columns:@[ @"firstName",         @"lastName" ]
+                                   expressions:@[ @"lower(firstName)",  @"upper(lastName)" ]
                                          where:nil
                                      arguments:nil];
     

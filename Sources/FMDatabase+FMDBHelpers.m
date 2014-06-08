@@ -739,15 +739,18 @@ withParameterDictionary:(NSDictionary *)arguments
 #pragma mark - Update
 
 - (NSInteger)update:(NSString *)tableName
-          setValues:(NSDictionary *)values
+          values:(NSDictionary *)values
               where:(NSString *)where
           arguments:(NSArray *)whereArguments
               error:(NSError **)error_p
 {
   NSMutableArray * allArguments = [[NSMutableArray alloc] initWithCapacity:(values.count + whereArguments.count)];
-  NSMutableDictionary * set = [[NSMutableDictionary alloc] initWithCapacity:values.count];
+  NSMutableArray * columnNames = [[NSMutableArray alloc] init];
+  NSMutableArray * expressions = [[NSMutableArray alloc] init];
+  
   [values enumerateKeysAndObjectsUsingBlock:^(NSString * columnName, id obj, BOOL *stop) {
-    set[columnName] = @"?";
+    [columnNames addObject:columnName];
+    [expressions addObject:@"?"];
     [allArguments addObject:obj];
   }];
   
@@ -757,42 +760,38 @@ withParameterDictionary:(NSDictionary *)arguments
   }
   
   return [self update:tableName
-                  set:set
+              columns:columnNames
+          expressions:expressions
                 where:where
             arguments:allArguments
                 error:error_p];
 }
 
 - (NSInteger)update:(NSString *)tableName
-                set:(NSDictionary *)set
+            columns:(NSArray *)columnNames
+        expressions:(NSArray *)expressions
               where:(NSString *)where
           arguments:(NSArray *)arguments
               error:(NSError **)error_p
 {
-  NSParameterAssert(set.count > 0);
+  NSParameterAssert(columnNames.count > 0);
+  NSParameterAssert(expressions.count == columnNames.count);
   
   NSMutableString * updateSQL = [[NSMutableString alloc] init];
   [updateSQL appendString:@"UPDATE "];
   [updateSQL appendString:[FMDatabase escapeIdentifier:tableName]];
   [updateSQL appendString:@" SET "];
   
-  {
-    __block BOOL isFirstColumn = YES;
-    [set enumerateKeysAndObjectsUsingBlock:^(NSString * columnName, NSString * expr, BOOL *stop) {
-      if (isFirstColumn)
-      {
-        isFirstColumn = NO;
-      }
-      else
-      {
-        [updateSQL appendString:@", "];
-      }
-      
-      [updateSQL appendString:[FMDatabase escapeIdentifier:columnName]];
-      [updateSQL appendString:@" = "];
-      [updateSQL appendString:expr];
-    }];
-  }
+  [columnNames enumerateObjectsUsingBlock:^(NSString * columnName, NSUInteger idx, BOOL *stop) {
+    if (idx > 0)
+    {
+      [updateSQL appendString:@", "];
+    }
+    
+    [updateSQL appendString:[FMDatabase escapeIdentifier:columnName]];
+    [updateSQL appendString:@" = "];
+    [updateSQL appendString:expressions[idx]];
+  }];
   
   if (where != nil)
   {

@@ -152,13 +152,14 @@ withParameterDictionary:(NSDictionary *)arguments
 #pragma mark - Update
 
 - (NSInteger)update:(NSString *)tableName
-          setValues:(NSDictionary *)values
+             values:(NSDictionary *)values
               where:(NSString *)where
-          arguments:(NSArray *)whereArguments
+          arguments:(NSArray *)arguments
               error:(NSError **)error_p;
 
 - (NSInteger)update:(NSString *)tableName
-                set:(NSDictionary *)set
+            columns:(NSArray *)columnNames
+        expressions:(NSArray *)expressions
               where:(NSString *)where
           arguments:(NSArray *)arguments
               error:(NSError **)error_p;

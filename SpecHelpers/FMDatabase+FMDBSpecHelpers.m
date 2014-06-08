@@ -226,13 +226,13 @@
 #pragma mark - Update
 
 - (NSInteger)update:(NSString *)tableName
-          setValues:(NSDictionary *)values
+             values:(NSDictionary *)values
               where:(NSString *)where
           arguments:(NSArray *)arguments
 {
   NSError * error = nil;
   NSInteger numberUpdated = [self update:tableName
-                               setValues:values
+                                  values:values
                                    where:where
                                arguments:arguments
                                    error:&error];
@@ -245,13 +245,15 @@
 }
 
 - (NSInteger)update:(NSString *)tableName
-                set:(NSDictionary *)set
+            columns:(NSArray *)columnNames
+        expressions:(NSArray *)expressions
               where:(NSString *)where
           arguments:(NSArray *)arguments
 {
   NSError * error = nil;
   NSInteger numberUpdated = [self update:tableName
-                                     set:set
+                                 columns:columnNames
+                             expressions:expressions
                                    where:where
                                arguments:arguments
                                    error:&error];

@@ -66,12 +66,13 @@
 #pragma mark - Update
 
 - (NSInteger)update:(NSString *)tableName
-          setValues:(NSDictionary *)setOfValues
+             values:(NSDictionary *)values
               where:(NSString *)where
           arguments:(NSArray *)arguments;
 
 - (NSInteger)update:(NSString *)tableName
-                set:(NSDictionary *)setOfExpressions
+            columns:(NSArray *)columnNames
+        expressions:(NSArray *)expressions
               where:(NSString *)where
           arguments:(NSArray *)arguments;
 
