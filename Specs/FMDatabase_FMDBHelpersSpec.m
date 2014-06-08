@@ -320,8 +320,8 @@ describe(@"- update:columns:expressions:where:arguments:error:", ^{
   
 });
 
-// ========== UPDATE ===================================================================================================
-#pragma mark - Update
+// ========== DELETE ===================================================================================================
+#pragma mark - Delete
 
 describe(@"- deleteFrom:where:arguments:error:", ^{
   
@@ -373,6 +373,54 @@ describe(@"- deleteFrom:where:arguments:error:", ^{
     
     expect(numberDeleted).to.beLessThan(0);
     expect(error).notTo.beNil();
+  });
+  
+});
+
+// ========== SELECT ===================================================================================================
+#pragma mark - Select
+
+describe(@"- selectResultsFrom:matchingValues:orderBy:error", ^{
+  
+  beforeEach(^{
+    [database createTableWithName:@"people"
+                          columns:@[ @"firstName", @"lastName" ]];
+    
+    [database insertInto:@"people"
+                 columns:@[ @"firstName", @"lastName" ]
+                  values:@[ @[ @"Amelia", @"Grey" ],
+                            @[ @"Earl",   @"Grey" ],
+                            @[ @"Earl",   @"Green" ],
+                            @[ @"James",  @"Green" ] ]];
+  });
+  
+  it(@"selects rows that match the values", ^{
+    NSArray * results = [database selectResultsFrom:@"people"
+                                     matchingValues:@{ @"lastName": @"Grey" }
+                                            orderBy:@"firstName"
+                                              error:NULL].allRecords;
+    
+    expect(results).to.equal(@[ @{ @"firstName": @"Amelia", @"lastName": @"Grey" },
+                                @{ @"firstName": @"Earl",   @"lastName": @"Grey" } ]);
+  });
+  
+  it(@"selects only rows that match all the values", ^{
+    NSArray * results = [database selectResultsFrom:@"people"
+                                     matchingValues:@{ @"firstName": @"Earl", @"lastName": @"Grey" }
+                                            orderBy:nil
+                                              error:NULL].allRecords;
+    
+    expect(results).to.equal(@[ @{ @"firstName": @"Earl", @"lastName": @"Grey" } ]);
+  });
+  
+  it(@"selects any row that matches a value in an NSArray", ^{
+    NSArray * results = [database selectResultsFrom:@"people"
+                                     matchingValues:@{ @"firstName": @[ @"Amelia", @"James" ] }
+                                            orderBy:nil
+                                              error:NULL].allRecords;
+    
+    expect(results).to.equal(@[ @{ @"firstName": @"Amelia", @"lastName": @"Grey" },
+                                @{ @"firstName": @"James",  @"lastName": @"Green" } ]);
   });
   
 });

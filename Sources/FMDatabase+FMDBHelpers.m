@@ -688,6 +688,65 @@ withParameterDictionary:(NSDictionary *)arguments
                        error:error_p];
 }
 
+- (FMResultSet *)selectResultsFrom:(NSString *)from
+                    matchingValues:(NSDictionary *)valuesToMatch
+                           orderBy:(NSString *)orderBy
+                             error:(NSError **)error_p
+{
+  NSMutableString * where = [[NSMutableString alloc] init];
+  NSMutableArray * arguments  = [[NSMutableArray alloc] initWithCapacity:valuesToMatch.count];
+  
+  if (valuesToMatch.count > 0)
+  {
+    [valuesToMatch enumerateKeysAndObjectsUsingBlock:^(NSString * columnName, id value, BOOL *stop) {
+      
+      if ([where length] > 0)
+      {
+        [where appendString:@" AND "];
+      }
+      
+      [where appendString:[FMDatabase escapeIdentifier:columnName]];
+      
+      if (value == [NSNull null])
+      {
+        [where appendString:@" IS NULL"];
+      }
+      else if ([value isKindOfClass:[NSArray class]])
+      {
+        [where appendString:@" IN ("];
+        
+        BOOL isFirst = YES;
+        for (id arg in value)
+        {
+          if (isFirst)
+          {
+            [where appendString:@"?"];
+            isFirst = NO;
+          }
+          else
+          {
+            [where appendString:@",?"];
+          }
+          [arguments addObject:arg];
+        }
+        
+        [where appendString:@") "];
+      }
+      else
+      {
+        [where appendString:@" = ?"];
+        [arguments addObject:value];
+      }
+    }];
+  }
+  
+  return [self selectResultsFrom:from
+                           where:where
+                       arguments:arguments
+                         orderBy:orderBy
+                           error:error_p];
+}
+
 - (FMResultSet *)selectResultsFrom:(NSString *)tableName
                              where:(NSString *)conditions
                          arguments:(NSArray *)arguments
@@ -739,7 +798,7 @@ withParameterDictionary:(NSDictionary *)arguments
 #pragma mark - Update
 
 - (NSInteger)update:(NSString *)tableName
-          values:(NSDictionary *)values
+             values:(NSDictionary *)values
               where:(NSString *)where
           arguments:(NSArray *)whereArguments
               error:(NSError **)error_p

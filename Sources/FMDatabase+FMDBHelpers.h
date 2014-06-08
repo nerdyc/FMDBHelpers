@@ -381,6 +381,32 @@ withParameterDictionary:(NSDictionary *)parameters
                              error:(NSError **)error_p;
 
 /**
+ *  Fetches rows from a table that match the given values and returns them as an `FMResultSet`. `valuesToMatch` contains
+ *  column values keyed by the column name. Values can be strings, numbers, and NSArray instances. Only rows that match
+ *  all values will be returned. When an array value is provided, rows that match any of the given values are returned.
+ *
+ *  For example, the following returns all people named "Amelia" with any of the given titles (Mrs., Ms., or Mme.).
+ *
+ *        [db selectResultsFrom:@"people"
+ *               matchingValues:@{ @"title":      @[ @"Mrs.", @"Ms.", @"Mme." ],
+ *                                 @"firstName":  @"Amelia" }
+ *                      orderBy:@"firstName"
+ *                        error:&error]
+ *
+ *
+ *  @param  from          The table name, plus any joins.
+ *  @param  valuesToMatch A dictionary of values to match, keyed by the column names.
+ *  @param  orderBy       An optional ORDER BY clause.
+ *  @param  error_p       A pointer to any error that occurs
+ *
+ *  @return The selected rows, or `nil` if an error occurs.
+ */
+- (FMResultSet *)selectResultsFrom:(NSString *)from
+                    matchingValues:(NSDictionary *)valuesToMatch
+                           orderBy:(NSString *)orderBy
+                             error:(NSError **)error_p;
+
+/**
  *  Fetches rows from a table and returns them as an `FMResultSet`.
  *
  *  @param  columns     The columns to select. `nil` selects all columns (*).
