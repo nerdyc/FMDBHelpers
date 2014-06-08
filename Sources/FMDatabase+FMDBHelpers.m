@@ -530,7 +530,14 @@ withParameterDictionary:(NSDictionary *)arguments
   }
   else if ([results next])
   {
-    return [results unsignedLongLongIntForColumnIndex:0];
+    if (sizeof(NSInteger) == sizeof(long))
+    {
+      return [results longForColumnIndex:0];
+    }
+    else
+    {
+      return [results intForColumnIndex:0];
+    }
   }
   else
   {
