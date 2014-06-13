@@ -480,6 +480,61 @@ withParameterDictionary:(NSDictionary *)arguments
                        error:error_p];
 }
 
+- (BOOL)insertInto:(NSString *)tableName
+      dictionaries:(NSArray *)dictionaries
+             error:(NSError **)error_p
+{
+  static NSString * const SAVEPOINT_NAME = @"insertInto_dictionaries_error";
+  
+  if (dictionaries.count == 0)
+  {
+    return YES;
+  }
+  
+  BOOL startedSavepoint = [self startSavePointWithName:SAVEPOINT_NAME
+                                                 error:error_p];
+  if (!startedSavepoint)
+  {
+    return NO;
+  }
+  
+  NSMutableArray * values = [[NSMutableArray alloc] init];
+  for (NSDictionary * dictionary in dictionaries)
+  {
+    [values removeAllObjects];
+    
+    NSArray * columns = dictionary.allKeys;
+    for (NSString * column in columns)
+    {
+      id value = dictionary[column];
+      [values addObject:value];
+    }
+    
+    BOOL inserted = [self insertInto:tableName
+                             columns:columns
+                              values:@[ values ]
+                               error:error_p];
+    if (!inserted)
+    {
+      [self rollbackToSavePointWithName:SAVEPOINT_NAME
+                                  error:NULL];
+      return NO;
+    }
+  }
+  
+  BOOL released = [self releaseSavePointWithName:SAVEPOINT_NAME
+                                           error:error_p];
+  if (!released)
+  {
+    [self rollbackToSavePointWithName:SAVEPOINT_NAME
+                                error:NULL];
+    
+    return NO;
+  }
+  
+  return YES;
+}
+
 // ========== COUNT ====================================================================================================
 #pragma mark - Count
 

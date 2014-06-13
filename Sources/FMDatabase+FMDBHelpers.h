@@ -262,6 +262,17 @@ withParameterDictionary:(NSDictionary *)parameters
             values:(NSArray *)values
              error:(NSError **)error_p;
 
+/**
+ *  Inserts one or more rows into a table from an array of dictionaries.
+ *
+ *  @param  tableName     The table into which data will be inserted
+ *  @param  dictionaries  An array of dictionaries to insert. For example `@[ @{ @"firstName": @"James" }, @{ @"firstName": @"Marilyn" } ]`.
+ *  @param  error_p       A pointer to any error that occurs
+ */
+- (BOOL)insertInto:(NSString *)tableName
+      dictionaries:(NSArray *)dictionaries
+             error:(NSError **)error_p;
+
 // ========== COUNT ====================================================================================================
 #pragma mark - Count
 

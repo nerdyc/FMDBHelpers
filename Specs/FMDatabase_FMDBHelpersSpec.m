@@ -221,6 +221,29 @@ describe(@"- insertInto:columns:values:error:", ^{
   
 });
 
+describe(@"- insertInto:dictionaries:error:", ^{
+  
+  beforeEach(^{
+    [database createTableWithName:@"people"
+                          columns:@[ @"firstName", @"lastName" ]];
+  });
+  
+  it(@"inserts the values into the table", ^{
+    [database insertInto:@"people"
+            dictionaries:@[ @{ @"firstName": @"Amelia" },
+                            @{ @"firstName": @"Earl",
+                               @"lastName" : @"Grey" } ]];
+    
+    expect([database countFrom:@"people"]).to.equal(2);
+    expect([database selectAllFrom:@"people"
+                           orderBy:@"firstName"]).to.equal(@[ @{ @"firstName": @"Amelia",
+                                                                 @"lastName" : [NSNull null] },
+                                                              @{ @"firstName": @"Earl",
+                                                                 @"lastName":  @"Grey" } ]);
+  });
+  
+});
+
 // ========== UPDATE ===================================================================================================
 #pragma mark - Update
 
