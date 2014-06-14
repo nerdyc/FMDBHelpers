@@ -221,24 +221,23 @@ describe(@"- insertInto:columns:values:error:", ^{
   
 });
 
-describe(@"- insertInto:dictionaries:error:", ^{
+describe(@"- insertInto:row:error:", ^{
   
   beforeEach(^{
     [database createTableWithName:@"people"
                           columns:@[ @"firstName", @"lastName" ]];
   });
   
-  it(@"inserts the values into the table", ^{
-    [database insertInto:@"people"
-            dictionaries:@[ @{ @"firstName": @"Amelia" },
-                            @{ @"firstName": @"Earl",
-                               @"lastName" : @"Grey" } ]];
+  it(@"inserts the row into the table", ^{
+    NSNumber * rowId = [database insertInto:@"people"
+                                        row:@{ @"firstName": @"Earl",
+                                               @"lastName" : @"Grey" }
+                                      error:NULL];
     
-    expect([database countFrom:@"people"]).to.equal(2);
+    expect(rowId).to.equal(@1);
+    expect([database countFrom:@"people"]).to.equal(1);
     expect([database selectAllFrom:@"people"
-                           orderBy:@"firstName"]).to.equal(@[ @{ @"firstName": @"Amelia",
-                                                                 @"lastName" : [NSNull null] },
-                                                              @{ @"firstName": @"Earl",
+                           orderBy:@"firstName"]).to.equal(@[ @{ @"firstName": @"Earl",
                                                                  @"lastName":  @"Grey" } ]);
   });
   

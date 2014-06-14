@@ -480,59 +480,28 @@ withParameterDictionary:(NSDictionary *)arguments
                        error:error_p];
 }
 
-- (BOOL)insertInto:(NSString *)tableName
-      dictionaries:(NSArray *)dictionaries
-             error:(NSError **)error_p
+- (NSNumber *)insertInto:(NSString *)tableName
+                     row:(NSDictionary *)rowValues
+                   error:(NSError **)error_p
 {
-  static NSString * const SAVEPOINT_NAME = @"insertInto_dictionaries_error";
-  
-  if (dictionaries.count == 0)
-  {
-    return YES;
-  }
-  
-  BOOL startedSavepoint = [self startSavePointWithName:SAVEPOINT_NAME
-                                                 error:error_p];
-  if (!startedSavepoint)
-  {
-    return NO;
-  }
-  
+  NSArray * columns = rowValues.allKeys;
   NSMutableArray * values = [[NSMutableArray alloc] init];
-  for (NSDictionary * dictionary in dictionaries)
+  for (NSString * column in columns)
   {
-    [values removeAllObjects];
-    
-    NSArray * columns = dictionary.allKeys;
-    for (NSString * column in columns)
-    {
-      id value = dictionary[column];
-      [values addObject:value];
-    }
-    
-    BOOL inserted = [self insertInto:tableName
-                             columns:columns
-                              values:@[ values ]
-                               error:error_p];
-    if (!inserted)
-    {
-      [self rollbackToSavePointWithName:SAVEPOINT_NAME
-                                  error:NULL];
-      return NO;
-    }
+    id value = rowValues[column];
+    [values addObject:value];
   }
   
-  BOOL released = [self releaseSavePointWithName:SAVEPOINT_NAME
-                                           error:error_p];
-  if (!released)
+  BOOL inserted = [self insertInto:tableName
+                           columns:columns
+                            values:@[ values ]
+                             error:error_p];
+  if (!inserted)
   {
-    [self rollbackToSavePointWithName:SAVEPOINT_NAME
-                                error:NULL];
-    
-    return NO;
+    return 0;
   }
   
-  return YES;
+  return @(self.lastInsertRowId);
 }
 
 // ========== COUNT ====================================================================================================

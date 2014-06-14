@@ -51,9 +51,6 @@
            columns:(NSArray *)columns
             values:(NSArray *)values;
 
-- (void)insertInto:(NSString *)tableName
-      dictionaries:(NSArray *)dictionaries;
-
 // ========== COUNT ====================================================================================================
 #pragma mark - Count
 

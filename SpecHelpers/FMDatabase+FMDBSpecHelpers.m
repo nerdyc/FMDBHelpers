@@ -189,19 +189,6 @@
   }
 }
 
-- (void)insertInto:(NSString *)tableName
-      dictionaries:(NSArray *)dictionaries
-{
-  NSError * error = nil;
-  BOOL succeeded = [self insertInto:tableName
-                       dictionaries:dictionaries
-                              error:&error];
-  if (!succeeded)
-  {
-    UNEXPECTED_ERROR(error, @"Error inserting into '%@'", tableName);
-  }
-}
-
 // ========== COUNT ====================================================================================================
 #pragma mark - Count
 
