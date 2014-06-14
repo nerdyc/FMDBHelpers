@@ -311,6 +311,35 @@ describe(@"- update:values:where:arguments:error:", ^{
   
 });
 
+describe(@"- update:values:matchingValues:error:", ^{
+  
+  beforeEach(^{
+    [database createTableWithName:@"people"
+                          columns:@[ @"firstName", @"lastName" ]];
+    
+    [database insertInto:@"people"
+                 columns:@[ @"firstName", @"lastName" ]
+                  values:@[ @[ @"Amelia", @"Ferris" ],
+                            @[ @"Earl",   @"Grey" ] ]];
+  });
+  
+  it(@"updates the values that match the where clause", ^{
+    NSInteger numberUpdated = [database update:@"people"
+                                        values:@{ @"lastName": @"Gris" }
+                                matchingValues:@{ @"lastName": @"Ferris" }
+                                         error:NULL];
+    
+    expect([database selectAllFrom:@"people"
+                           orderBy:@"firstName"]).to.equal(@[ @{ @"firstName": @"Amelia",
+                                                                 @"lastName":  @"Gris" },
+                                                              
+                                                              @{ @"firstName": @"Earl",
+                                                                 @"lastName":  @"Grey" } ]);
+    expect(numberUpdated).to.equal(1);
+  });
+  
+});
+
 describe(@"- update:columns:expressions:where:arguments:error:", ^{
 
   beforeEach(^{

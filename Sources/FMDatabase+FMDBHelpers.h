@@ -292,6 +292,22 @@ withParameterDictionary:(NSDictionary *)parameters
                  error:(NSError **)error_p;
 
 /**
+ *  Count all rows in a table that match conditions in `valuesToMatch`. This is an alias for
+ *  `-count:from:matchingValues:error:`.
+ */
+- (NSInteger)countFrom:(NSString *)from
+        matchingValues:(NSDictionary *)valuesToMatch
+                 error:(NSError **)error_p;
+
+/**
+ *  Count rows in a table that match all conditions in `valuesToMatch`.
+ */
+- (NSInteger)count:(NSArray *)columnNames
+              from:(NSString *)from
+    matchingValues:(NSDictionary *)valuesToMatch
+             error:(NSError **)error_p;
+
+/**
  *  Count all rows in a table that match conditions.
  *
  *  @param  columnNames The columns (or expressions) to count. `nil` counts all columns.
@@ -306,23 +322,6 @@ withParameterDictionary:(NSDictionary *)parameters
               from:(NSString *)from
              where:(NSString *)where
          arguments:(NSArray *)arguments
-             error:(NSError **)error_p;
-
-/**
- *  Count all rows in a table that match conditions.
- *
- *  @param  columnNames The columns (or expressions) to count. `nil` counts all columns.
- *  @param  from        The table name, plus any joins.
- *  @param  where       An optional WHERE clause. E.g. @"firstName IS NOT $excludedName"
- *  @param  parameters  Named parameters to bind to the WHERE clause. E.g. @{ @"excludedName": @"James" }
- *  @param  error_p     A pointer to any error that occurs.
- *
- *  @return The count of rows, or -1 if an error occurs.
- */
-- (NSInteger)count:(NSArray *)columnNames
-              from:(NSString *)from
-             where:(NSString *)where
-        parameters:(NSDictionary *)parameters
              error:(NSError **)error_p;
 
 // ========== SELECT ===================================================================================================
@@ -394,19 +393,28 @@ withParameterDictionary:(NSDictionary *)parameters
                              error:(NSError **)error_p;
 
 /**
+ * Calls `selectResults:from:matchingValues:orderBy:limit:offset:error:` with all columns selected.
+ */
+- (FMResultSet *)selectResultsFrom:(NSString *)from
+                    matchingValues:(NSDictionary *)valuesToMatch
+                           orderBy:(NSString *)orderBy
+                             error:(NSError **)error_p;
+
+/**
  *  Fetches rows from a table that match the given values and returns them as an `FMResultSet`. `valuesToMatch` contains
  *  column values keyed by the column name. Values can be strings, numbers, and NSArray instances. Only rows that match
  *  all values will be returned. When an array value is provided, rows that match any of the given values are returned.
  *
  *  For example, the following returns all people named "Amelia" with any of the given titles (Mrs., Ms., or Mme.).
  *
- *        [db selectResultsFrom:@"people"
- *               matchingValues:@{ @"title":      @[ @"Mrs.", @"Ms.", @"Mme." ],
- *                                 @"firstName":  @"Amelia" }
- *                      orderBy:@"firstName"
- *                        error:&error]
+ *        [db selectResults:nil
+ *                     from:@"people"
+ *           matchingValues:@{ @"title":      @[ @"Mrs.", @"Ms.", @"Mme." ],
+ *                             @"firstName":  @"Amelia" }
+ *                  orderBy:@"firstName"
+ *                    error:&error]
  *
- *
+ *  @param  columnNames   The columns to select. `nil` selects all columns.
  *  @param  from          The table name, plus any joins.
  *  @param  valuesToMatch A dictionary of values to match, keyed by the column names.
  *  @param  orderBy       An optional ORDER BY clause.
@@ -414,10 +422,13 @@ withParameterDictionary:(NSDictionary *)parameters
  *
  *  @return The selected rows, or `nil` if an error occurs.
  */
-- (FMResultSet *)selectResultsFrom:(NSString *)from
-                    matchingValues:(NSDictionary *)valuesToMatch
-                           orderBy:(NSString *)orderBy
-                             error:(NSError **)error_p;
+- (FMResultSet *)selectResults:(NSArray *)columnNames
+                          from:(NSString *)from
+                matchingValues:(NSDictionary *)valuesToMatch
+                       orderBy:(NSString *)orderBy
+                         limit:(NSNumber *)limit
+                        offset:(NSNumber *)offset
+                         error:(NSError **)error_p;
 
 /**
  *  Fetches rows from a table and returns them as an `FMResultSet`.
@@ -450,6 +461,22 @@ withParameterDictionary:(NSDictionary *)parameters
 #pragma mark - Update
 
 /// @name Updating Rows
+
+/**
+ *  Updates rowns in a table that match the given dictionary of values.
+ *
+ *  @param  tableName       The table to update.
+ *  @param  values          The new values. Keys are the column names. E.g. @{ @"firstName": @"Grace" }. Values will be
+ *                          escaped.
+ *  @param  matchingValues  A dictionary decribing the rows to update. `nil` updates all rows.
+ *  @param  error_p         A pointer to any error that occurs
+ *
+ *  @return The number of updated rows, or -1 if an error occurs.
+ */
+- (NSInteger)update:(NSString *)tableName
+             values:(NSDictionary *)values
+     matchingValues:(NSDictionary *)matchingValues
+              error:(NSError **)error_p;
 
 /**
  *  Updates rows in a table to a set of new values that match the WHERE clause.
@@ -495,6 +522,13 @@ withParameterDictionary:(NSDictionary *)parameters
 #pragma mark - Delete
 
 /// @name Deleting Rows
+
+/**
+ *  Delete rows in a table that match all alues in `matchingValues`.
+ */
+- (NSInteger)deleteFrom:(NSString *)tableName
+         matchingValues:(NSDictionary *)matchingValues
+                  error:(NSError **)error_p;
 
 /**
  *  Deletes rows in a table that match the optional WHERE clause.

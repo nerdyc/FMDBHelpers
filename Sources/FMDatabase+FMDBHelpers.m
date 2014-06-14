@@ -536,6 +536,32 @@ withParameterDictionary:(NSDictionary *)arguments
                error:error_p];
 }
 
+- (NSInteger)countFrom:(NSString *)from
+        matchingValues:(NSDictionary *)valuesToMatch
+                 error:(NSError **)error_p
+{
+  return [self count:nil
+                from:from
+      matchingValues:valuesToMatch
+               error:error_p];
+}
+
+- (NSInteger)count:(NSArray *)columnNames
+              from:(NSString *)from
+    matchingValues:(NSDictionary *)valuesToMatch
+             error:(NSError **)error_p
+{
+  NSArray * arguments = nil;
+  NSString * where = [FMDatabase whereClauseToMatchValues:valuesToMatch
+                                                arguments:&arguments];
+  
+  return [self count:columnNames
+                from:from
+               where:where
+           arguments:arguments
+               error:error_p];
+}
+
 - (NSInteger)count:(NSArray *)columnNames
               from:(NSString *)from
              where:(NSString *)where
@@ -548,39 +574,6 @@ withParameterDictionary:(NSDictionary *)arguments
   
   FMResultSet * results = [self executeQuery:countSQL
                         withArgumentsInArray:arguments];
-  if (results == nil)
-  {
-    return -1;
-  }
-  else if ([results next])
-  {
-    if (sizeof(NSInteger) == sizeof(long))
-    {
-      return [results longForColumnIndex:0];
-    }
-    else
-    {
-      return [results intForColumnIndex:0];
-    }
-  }
-  else
-  {
-    return 0;
-  }
-}
-
-- (NSInteger)count:(NSArray *)columnNames
-              from:(NSString *)from
-             where:(NSString *)where
-        parameters:(NSDictionary *)parameters
-             error:(NSError **)error_p
-{
-  NSString * countSQL = [FMDatabase statementToCount:columnNames
-                                                from:from
-                                               where:where];
-  
-  FMResultSet * results = [self executeQuery:countSQL
-                     withParameterDictionary:parameters];
   if (results == nil)
   {
     return -1;
@@ -641,6 +634,66 @@ withParameterDictionary:(NSDictionary *)arguments
 
 // ---------- RESULTS --------------------------------------------------------------------------------------------------
 #pragma mark Results
+
++ (NSString *)whereClauseToMatchValues:(NSDictionary *)valuesToMatch
+                             arguments:(NSArray **)arguments_p
+{
+  if (valuesToMatch.count == 0)
+  {
+    if (arguments_p) *arguments_p = @[];
+    return @"1";
+  }
+  
+  NSMutableString * where = [[NSMutableString alloc] init];
+  NSMutableArray * arguments  = [[NSMutableArray alloc] initWithCapacity:valuesToMatch.count];
+  [valuesToMatch enumerateKeysAndObjectsUsingBlock:^(NSString * columnName, id value, BOOL *stop) {
+    
+    if ([where length] > 0)
+    {
+      [where appendString:@" AND "];
+    }
+    
+    [where appendString:[FMDatabase escapeIdentifier:columnName]];
+    
+    if (value == [NSNull null])
+    {
+      [where appendString:@" IS NULL"];
+    }
+    else if ([value isKindOfClass:[NSArray class]])
+    {
+      [where appendString:@" IN ("];
+      
+      BOOL isFirst = YES;
+      for (id arg in value)
+      {
+        if (isFirst)
+        {
+          [where appendString:@"?"];
+          isFirst = NO;
+        }
+        else
+        {
+          [where appendString:@",?"];
+        }
+        [arguments addObject:arg];
+      }
+      
+      [where appendString:@") "];
+    }
+    else
+    {
+      [where appendString:@" = ?"];
+      [arguments addObject:value];
+    }
+  }];
+  
+  if (arguments_p != NULL)
+  {
+    *arguments_p = arguments;
+  }
+  
+  return where;
+}
 
 + (NSString *)statementToSelect:(NSArray *)columnNames
                            from:(NSString *)from
@@ -717,58 +770,37 @@ withParameterDictionary:(NSDictionary *)arguments
                            orderBy:(NSString *)orderBy
                              error:(NSError **)error_p
 {
-  NSMutableString * where = [[NSMutableString alloc] init];
-  NSMutableArray * arguments  = [[NSMutableArray alloc] initWithCapacity:valuesToMatch.count];
+  return [self selectResults:nil
+                        from:from
+              matchingValues:valuesToMatch
+                     orderBy:orderBy
+                       limit:nil
+                      offset:nil
+                       error:error_p];
+}
+
+- (FMResultSet *)selectResults:(NSArray *)columnNames
+                          from:(NSString *)from
+                matchingValues:(NSDictionary *)valuesToMatch
+                       orderBy:(NSString *)orderBy
+                         limit:(NSNumber *)limit
+                        offset:(NSNumber *)offset
+                         error:(NSError **)error_p
+{
+  NSArray * arguments = nil;
+  NSString * where = [FMDatabase whereClauseToMatchValues:valuesToMatch
+                                                arguments:&arguments];
   
-  if (valuesToMatch.count > 0)
-  {
-    [valuesToMatch enumerateKeysAndObjectsUsingBlock:^(NSString * columnName, id value, BOOL *stop) {
-      
-      if ([where length] > 0)
-      {
-        [where appendString:@" AND "];
-      }
-      
-      [where appendString:[FMDatabase escapeIdentifier:columnName]];
-      
-      if (value == [NSNull null])
-      {
-        [where appendString:@" IS NULL"];
-      }
-      else if ([value isKindOfClass:[NSArray class]])
-      {
-        [where appendString:@" IN ("];
-        
-        BOOL isFirst = YES;
-        for (id arg in value)
-        {
-          if (isFirst)
-          {
-            [where appendString:@"?"];
-            isFirst = NO;
-          }
-          else
-          {
-            [where appendString:@",?"];
-          }
-          [arguments addObject:arg];
-        }
-        
-        [where appendString:@") "];
-      }
-      else
-      {
-        [where appendString:@" = ?"];
-        [arguments addObject:value];
-      }
-    }];
-  }
-  
-  return [self selectResultsFrom:from
-                           where:where
-                       arguments:arguments
-                         orderBy:orderBy
-                           error:error_p];
+  return [self selectResults:columnNames
+                        from:from
+                       where:where
+                     groupBy:nil
+                      having:nil
+                   arguments:arguments
+                     orderBy:orderBy
+                       limit:limit
+                      offset:offset
+                       error:error_p];
 }
 
 - (FMResultSet *)selectResultsFrom:(NSString *)tableName
@@ -820,6 +852,21 @@ withParameterDictionary:(NSDictionary *)arguments
 
 // ========== UPDATE ===================================================================================================
 #pragma mark - Update
+
+- (NSInteger)update:(NSString *)tableName
+             values:(NSDictionary *)values
+     matchingValues:(NSDictionary *)matchingValues
+              error:(NSError **)error_p
+{
+  NSArray * arguments = nil;
+  NSString * where = [FMDatabase whereClauseToMatchValues:matchingValues
+                                                arguments:&arguments];
+  return [self update:tableName
+               values:values
+                where:where
+            arguments:arguments
+                error:error_p];
+}
 
 - (NSInteger)update:(NSString *)tableName
              values:(NSDictionary *)values
@@ -896,6 +943,20 @@ withParameterDictionary:(NSDictionary *)arguments
 
 // ========== DELETE ===================================================================================================
 #pragma mark - Delete
+
+- (NSInteger)deleteFrom:(NSString *)tableName
+         matchingValues:(NSDictionary *)matchingValues
+                  error:(NSError **)error_p
+{
+  NSArray * arguments = nil;
+  NSString * where = [FMDatabase whereClauseToMatchValues:matchingValues
+                                                arguments:&arguments];
+  return [self deleteFrom:tableName
+                    where:where
+                arguments:arguments
+                    error:error_p];
+}
+
 
 - (NSInteger)deleteFrom:(NSString *)tableName
                   where:(NSString *)where
