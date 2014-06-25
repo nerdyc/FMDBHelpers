@@ -27,6 +27,10 @@ FMDBHelpers contains categories for `FMDatabase` and `FMResultSet`. Both are doc
 
 		pod 'FMDBHelpers'
 
+## Contributors
+
+Contributors are listed in [CONTRIBUTORS.md](CONTRIBUTORS.md). Thanks!
+
 ## License
 
 `FMDBHelpers` is covered by the MIT license. See the LICENSE file for full text.
