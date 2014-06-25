@@ -206,7 +206,7 @@ withParameterDictionary:(NSDictionary *)parameters
 /**
  *  Returns the names of all indexes on a given table.
  */
-- (NSArray *)indexNamesOnTable:(NSString *)tableName;
+- (NSSet *)indexNamesOnTable:(NSString *)tableName;
 
 /**
  *  Creates a non-unique index on a table.
