@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "FMDBHelpers"
-  s.version      = "0.0.5"
+  s.version      = "0.0.6"
   s.summary      = "SQL helpers for FMDB"
   s.description  = <<-DESC
                    Helper categories for FMDB to execute common SQL statements, and easily
