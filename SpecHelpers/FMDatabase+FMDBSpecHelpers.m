@@ -1,4 +1,5 @@
 #import "FMDatabase+FMDBSpecHelpers.h"
+#import <FMDB/FMDatabaseAdditions.h>
 
 #define UNEXPECTED_ERROR(__ERROR__, __MESSAGE__, ...) \
 { \
@@ -169,6 +170,23 @@
   {
     UNEXPECTED_ERROR(error, @"Error dropping index '%@'", indexName);
   }
+}
+
+- (NSString *)sqlForIndexWithName:(NSString *)indexName
+{
+  FMResultSet * schema = [self getSchema];
+  while ([schema next])
+  {
+    NSString * type = [schema stringForColumn:@"type"];
+    if ([type isEqualToString:@"index"] && [[schema stringForColumn:@"name"] isEqualToString:indexName])
+    {
+      NSString * sql = [schema stringForColumn:@"sql"];
+      [schema close];
+      return sql;
+    }
+  }
+  
+  return nil;
 }
 
 // ========== INSERT ===================================================================================================

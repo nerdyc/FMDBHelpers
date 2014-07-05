@@ -44,6 +44,8 @@
 
 - (void)dropIndexWithName:(NSString *)indexName;
 
+- (NSString *)sqlForIndexWithName:(NSString *)indexName;
+
 // ========== INSERT ===================================================================================================
 #pragma mark - Insert
 

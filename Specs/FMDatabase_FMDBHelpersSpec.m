@@ -171,6 +171,25 @@ describe(@"- createIndexNamed:onTableNamed:columns:error:", ^{
                           columns:@[ @"firstName", @"lastName" ]];
     
     expect([database indexNamesOnTable:@"people"]).to.equal([NSSet setWithObject:@"name_index"]);
+    expect([database sqlForIndexWithName:@"name_index"]).to.contain(@"CREATE INDEX ");
+  });
+  
+});
+
+describe(@"- createUniqueIndexNamed:onTableNamed:columns:error:", ^{
+  
+  beforeEach(^{
+    [database createTableWithName:@"people"
+                          columns:@[ @"firstName", @"lastName" ]];
+  });
+  
+  it(@"creates an index with the given columns", ^{
+    [database createUniqueIndexWithName:@"unique_name_index"
+                              tableName:@"people"
+                                columns:@[ @"firstName", @"lastName" ]];
+    
+    expect([database indexNamesOnTable:@"people"]).to.equal([NSSet setWithObject:@"unique_name_index"]);
+    expect([database sqlForIndexWithName:@"unique_name_index"]).to.contain(@"CREATE UNIQUE INDEX ");
   });
   
 });
