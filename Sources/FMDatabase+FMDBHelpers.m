@@ -221,32 +221,31 @@ withParameterDictionary:(NSDictionary *)arguments
                 constraints:(NSArray *)constraints
                       error:(NSError **)error_p
 {
-  NSMutableString * createTable = [[NSMutableString alloc] init];
+  NSMutableArray * createTable = [[NSMutableArray alloc] init];
   
-  [createTable appendString:@"CREATE TABLE "];
+  [createTable addObject:@"CREATE TABLE"];
   
-  [createTable appendString:[FMDatabase escapeIdentifier:tableName]];
-  [createTable appendString:@" ("];
+  [createTable addObject:[FMDatabase escapeIdentifier:tableName]];
+  [createTable addObject:@"("];
   
   BOOL isFirstColumn = YES;
   for (id columnDef in columns)
   {
     if (isFirstColumn == NO)
     {
-      [createTable appendString:@","];
+      [createTable addObject:@","];
     }
     
     if ([columnDef isKindOfClass:[NSArray class]])
     {
       for (NSString * component in columnDef)
       {
-        [createTable appendString:@" "];
-        [createTable appendString:component];
+        [createTable addObject:component];
       }
     }
     else if ([columnDef isKindOfClass:[NSString class]])
     {
-      [createTable appendString:columnDef];
+      [createTable addObject:columnDef];
     }
     else
     {
@@ -263,13 +262,13 @@ withParameterDictionary:(NSDictionary *)arguments
   // constraints
   for (NSString * constraint in constraints)
   {
-    [createTable appendString:@", "];
-    [createTable appendString:constraint];
+    [createTable addObject:@","];
+    [createTable addObject:constraint];
   }
 
-  [createTable appendString:@")"];
+  [createTable addObject:@")"];
   
-  return [self executeUpdate:createTable
+  return [self executeUpdate:[createTable componentsJoinedByString:@" "]
                        error:error_p];
 }
 
@@ -277,13 +276,13 @@ withParameterDictionary:(NSDictionary *)arguments
                  to:(NSString *)newTableName
               error:(NSError **)error_p
 {
-  NSMutableString * renameTable = [[NSMutableString alloc] init];
-  [renameTable appendString:@"ALTER TABLE "];
-  [renameTable appendString:[FMDatabase escapeIdentifier:tableName]];
-  [renameTable appendString:@" RENAME TO "];
-  [renameTable appendString:[FMDatabase escapeIdentifier:newTableName]];
+  NSMutableArray * renameTable = [[NSMutableArray alloc] init];
+  [renameTable addObject:@"ALTER TABLE"];
+  [renameTable addObject:[FMDatabase escapeIdentifier:tableName]];
+  [renameTable addObject:@"RENAME TO"];
+  [renameTable addObject:[FMDatabase escapeIdentifier:newTableName]];
   
-  return [self executeUpdate:renameTable
+  return [self executeUpdate:[renameTable componentsJoinedByString:@" "]
                        error:error_p];
 }
 
@@ -291,13 +290,13 @@ withParameterDictionary:(NSDictionary *)arguments
           toTable:(NSString *)tableName
             error:(NSError **)error_p
 {
-  NSMutableString * renameTable = [[NSMutableString alloc] init];
-  [renameTable appendString:@"ALTER TABLE "];
-  [renameTable appendString:[FMDatabase escapeIdentifier:tableName]];
-  [renameTable appendString:@" ADD COLUMN "];
-  [renameTable appendString:columnDefinition];
+  NSMutableArray * addColumn = [[NSMutableArray alloc] init];
+  [addColumn addObject:@"ALTER TABLE"];
+  [addColumn addObject:[FMDatabase escapeIdentifier:tableName]];
+  [addColumn addObject:@"ADD COLUMN"];
+  [addColumn addObject:columnDefinition];
   
-  return [self executeUpdate:renameTable
+  return [self executeUpdate:[addColumn componentsJoinedByString:@" "]
                        error:error_p];
 }
 
@@ -321,18 +320,17 @@ withParameterDictionary:(NSDictionary *)arguments
                  ifExists:(BOOL)ifExists
                     error:(NSError **)error_p
 {
-  NSMutableString * dropTable = [[NSMutableString alloc] init];
+  NSMutableArray * dropTable = [[NSMutableArray alloc] init];
   
-  [dropTable appendString:@"DROP TABLE"];
+  [dropTable addObject:@"DROP TABLE"];
   if (ifExists)
   {
-    [dropTable appendString:@" IF EXISTS"];
+    [dropTable addObject:@"IF EXISTS"];
   }
   
-  [dropTable appendString:@" "];
-  [dropTable appendString:[FMDatabase escapeIdentifier:tableName]];
+  [dropTable addObject:[FMDatabase escapeIdentifier:tableName]];
 
-  return [self executeUpdate:dropTable
+  return [self executeUpdate:[dropTable componentsJoinedByString:@" "]
                        error:error_p];
 }
 
@@ -389,11 +387,11 @@ withParameterDictionary:(NSDictionary *)arguments
 - (BOOL)dropIndexWithName:(NSString *)indexName
                     error:(NSError **)error_p
 {
-  NSMutableString * dropIndex = [[NSMutableString alloc] init];
-  [dropIndex appendString:@"DROP INDEX "];
-  [dropIndex appendString:[FMDatabase escapeIdentifier:indexName]];
+  NSMutableArray * dropIndex = [[NSMutableArray alloc] init];
+  [dropIndex addObject:@"DROP INDEX"];
+  [dropIndex addObject:[FMDatabase escapeIdentifier:indexName]];
   
-  return [self executeUpdate:dropIndex
+  return [self executeUpdate:[dropIndex componentsJoinedByString:@" "]
                        error:error_p];
 }
 
@@ -402,19 +400,19 @@ withParameterDictionary:(NSDictionary *)arguments
 
 + (NSString *)argumentTupleOfSize:(NSUInteger)tupleSize
 {
-  NSMutableString * tupleString = [[NSMutableString alloc] init];
-  [tupleString appendString:@"("];
+  NSMutableArray * tupleString = [[NSMutableArray alloc] init];
+  [tupleString addObject:@"("];
   for (NSUInteger columnIdx = 0; columnIdx < tupleSize; columnIdx++)
   {
     if (columnIdx > 0)
     {
-      [tupleString appendString:@","];
+      [tupleString addObject:@","];
     }
-    [tupleString appendString:@"?"];
+    [tupleString addObject:@"?"];
   }
-  [tupleString appendString:@")"];
+  [tupleString addObject:@")"];
   
-  return tupleString;
+  return [tupleString componentsJoinedByString:@" "];
 }
 
 - (BOOL)insertInto:(NSString *)tableName
@@ -426,34 +424,34 @@ withParameterDictionary:(NSDictionary *)arguments
   NSParameterAssert(columnNames.count > 0);
   NSParameterAssert(tableName != nil);
   
-  NSMutableString * insertSQL = [[NSMutableString alloc] init];
+  NSMutableArray * insertSQL = [[NSMutableArray alloc] init];
   
-  [insertSQL appendString:@"INSERT INTO "];
-  [insertSQL appendString:tableName];
+  [insertSQL addObject:@"INSERT INTO"];
+  [insertSQL addObject:tableName];
   
   if (columnNames.count > 0) {
-    [insertSQL appendString:@" ("];
+    [insertSQL addObject:@"("];
     
     [columnNames enumerateObjectsUsingBlock:^(NSString * columnName, NSUInteger idx, BOOL *stop) {
       if (idx > 0)
       {
-        [insertSQL appendString:@", "];
+        [insertSQL addObject:@","];
       }
       
-      [insertSQL appendString:[FMDatabase escapeIdentifier:columnName]];
+      [insertSQL addObject:[FMDatabase escapeIdentifier:columnName]];
     }];
     
-    [insertSQL appendString:@")"];
+    [insertSQL addObject:@")"];
   }
   
   NSMutableArray * flattenedValues = [[NSMutableArray alloc] initWithCapacity:(columnNames.count * values.count)];
   if (values.count == 0)
   {
-    [insertSQL appendString:@" DEFAULT VALUES"];
+    [insertSQL addObject:@"DEFAULT VALUES"];
   }
   else
   {
-    [insertSQL appendString:@" VALUES "];
+    [insertSQL addObject:@"VALUES"];
     
     NSString * argumentTuple = [FMDatabase argumentTupleOfSize:columnNames.count];
     
@@ -462,15 +460,15 @@ withParameterDictionary:(NSDictionary *)arguments
       NSParameterAssert(row.count == columnNames.count);
       if (rowIdx > 0)
       {
-        [insertSQL appendString:@","];
+        [insertSQL addObject:@","];
       }
       
-      [insertSQL appendString:argumentTuple];
+      [insertSQL addObject:argumentTuple];
       [flattenedValues addObjectsFromArray:row];
     }];
   }
   
-  return [self executeUpdate:insertSQL
+  return [self executeUpdate:[insertSQL componentsJoinedByString:@" "]
         withArgumentsInArray:flattenedValues
                        error:error_p];
 }
@@ -639,45 +637,42 @@ withParameterDictionary:(NSDictionary *)arguments
     return @"1";
   }
   
-  NSMutableString * where = [[NSMutableString alloc] init];
+  NSMutableArray * where = [[NSMutableArray alloc] init];
   NSMutableArray * arguments  = [[NSMutableArray alloc] initWithCapacity:valuesToMatch.count];
   [valuesToMatch enumerateKeysAndObjectsUsingBlock:^(NSString * columnName, id value, BOOL *stop) {
     
-    if ([where length] > 0)
+    if (where.count > 0)
     {
-      [where appendString:@" AND "];
+      [where addObject:@"AND"];
     }
     
-    [where appendString:[FMDatabase escapeIdentifier:columnName]];
+    [where addObject:[FMDatabase escapeIdentifier:columnName]];
     
     if (value == [NSNull null])
     {
-      [where appendString:@" IS NULL"];
+      [where addObject:@"IS NULL"];
     }
     else if ([value isKindOfClass:[NSArray class]])
     {
-      [where appendString:@" IN ("];
+      [where addObject:@"IN ("];
       
       BOOL isFirst = YES;
       for (id arg in value)
       {
-        if (isFirst)
-        {
-          [where appendString:@"?"];
-          isFirst = NO;
+        if (!isFirst) {
+          [where addObject:@","];
         }
-        else
-        {
-          [where appendString:@",?"];
-        }
+        [where addObject:@"?"];
+        isFirst = NO;
+
         [arguments addObject:arg];
       }
       
-      [where appendString:@") "];
+      [where addObject:@")"];
     }
     else
     {
-      [where appendString:@" = ?"];
+      [where addObject:@"= ?"];
       [arguments addObject:value];
     }
   }];
@@ -687,7 +682,7 @@ withParameterDictionary:(NSDictionary *)arguments
     *arguments_p = arguments;
   }
   
-  return where;
+  return [where componentsJoinedByString:@" "];
 }
 
 + (NSString *)statementToSelect:(NSArray *)columnNames
@@ -699,49 +694,49 @@ withParameterDictionary:(NSDictionary *)arguments
                           limit:(NSNumber *)limit
                          offset:(NSNumber *)offset
 {
-  NSMutableString * selectSQL = [[NSMutableString alloc] init];
-  [selectSQL appendString:@"SELECT "];
-  [selectSQL appendString:[FMDatabase listOfColumns:columnNames]];
-  [selectSQL appendString:@" FROM "];
-  [selectSQL appendString:from];
+  NSMutableArray * selectSQL = [[NSMutableArray alloc] init];
+  [selectSQL addObject:@"SELECT"];
+  [selectSQL addObject:[FMDatabase listOfColumns:columnNames]];
+  [selectSQL addObject:@"FROM"];
+  [selectSQL addObject:from];
   
   if (where.length > 0)
   {
-    [selectSQL appendString:@" WHERE "];
-    [selectSQL appendString:where];
+    [selectSQL addObject:@"WHERE"];
+    [selectSQL addObject:where];
   }
   
   if ([groupBy length] > 0)
   {
-    [selectSQL appendString:@" GROUP BY "];
-    [selectSQL appendString:groupBy];
+    [selectSQL addObject:@"GROUP BY"];
+    [selectSQL addObject:groupBy];
     
     if ([having length] > 0)
     {
-      [selectSQL appendString:@" HAVING "];
-      [selectSQL appendString:having];
+      [selectSQL addObject:@"HAVING"];
+      [selectSQL addObject:having];
     }
   }
   
   if ([orderBy length] > 0)
   {
-    [selectSQL appendString:@" ORDER BY "];
-    [selectSQL appendString:orderBy];
+    [selectSQL addObject:@"ORDER BY"];
+    [selectSQL addObject:orderBy];
   }
   
   if (limit != nil)
   {
-    [selectSQL appendString:@" LIMIT "];
-    [selectSQL appendString:limit.stringValue];
+    [selectSQL addObject:@"LIMIT"];
+    [selectSQL addObject:limit.stringValue];
     
     if (offset != nil)
     {
-      [selectSQL appendString:@" OFFSET "];
-      [selectSQL appendString:offset.stringValue];
+      [selectSQL addObject:@"OFFSET"];
+      [selectSQL addObject:offset.stringValue];
     }
   }
   
-  return selectSQL;
+  return [selectSQL componentsJoinedByString:@" "];
 }
 
 - (FMResultSet *)selectResultsFrom:(NSString *)tableName
@@ -902,29 +897,29 @@ withParameterDictionary:(NSDictionary *)arguments
   NSParameterAssert(columnNames.count > 0);
   NSParameterAssert(expressions.count == columnNames.count);
   
-  NSMutableString * updateSQL = [[NSMutableString alloc] init];
-  [updateSQL appendString:@"UPDATE "];
-  [updateSQL appendString:[FMDatabase escapeIdentifier:tableName]];
-  [updateSQL appendString:@" SET "];
+  NSMutableArray * updateSQL = [[NSMutableArray alloc] init];
+  [updateSQL addObject:@"UPDATE"];
+  [updateSQL addObject:[FMDatabase escapeIdentifier:tableName]];
+  [updateSQL addObject:@"SET"];
   
   [columnNames enumerateObjectsUsingBlock:^(NSString * columnName, NSUInteger idx, BOOL *stop) {
     if (idx > 0)
     {
-      [updateSQL appendString:@", "];
+      [updateSQL addObject:@","];
     }
     
-    [updateSQL appendString:[FMDatabase escapeIdentifier:columnName]];
-    [updateSQL appendString:@" = "];
-    [updateSQL appendString:expressions[idx]];
+    [updateSQL addObject:[FMDatabase escapeIdentifier:columnName]];
+    [updateSQL addObject:@"="];
+    [updateSQL addObject:expressions[idx]];
   }];
   
   if (where != nil)
   {
-    [updateSQL appendString:@" WHERE "];
-    [updateSQL appendString:where];
+    [updateSQL addObject:@"WHERE"];
+    [updateSQL addObject:where];
   }
   
-  BOOL successful = [self executeUpdate:updateSQL
+  BOOL successful = [self executeUpdate:[updateSQL componentsJoinedByString:@" "]
                    withArgumentsInArray:arguments
                                   error:error_p];
   if (!successful)
@@ -958,17 +953,17 @@ withParameterDictionary:(NSDictionary *)arguments
               arguments:(NSArray *)arguments
                   error:(NSError **)error_p
 {
-  NSMutableString * deleteSQL = [[NSMutableString alloc] init];
-  [deleteSQL appendString:@"DELETE FROM "];
-  [deleteSQL appendString:tableName];
+  NSMutableArray * deleteSQL = [[NSMutableArray alloc] init];
+  [deleteSQL addObject:@"DELETE FROM"];
+  [deleteSQL addObject:tableName];
   
   if (where.length > 0)
   {
-    [deleteSQL appendString:@" WHERE "];
-    [deleteSQL appendString:where];
+    [deleteSQL addObject:@"WHERE"];
+    [deleteSQL addObject:where];
   }
   
-  BOOL succeeded = [self executeUpdate:deleteSQL
+  BOOL succeeded = [self executeUpdate:[deleteSQL componentsJoinedByString:@" "]
                   withArgumentsInArray:arguments
                                  error:error_p];
   if (!succeeded)
