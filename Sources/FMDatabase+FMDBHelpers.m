@@ -369,27 +369,22 @@ withParameterDictionary:(NSDictionary *)arguments
                      unique:(BOOL)isUnique
                       error:(NSError **)error_p
 {
-  NSMutableString * createIndex = [[NSMutableString alloc] init];
+  NSMutableArray *createIndex = [NSMutableArray arrayWithObject:@"CREATE"];
   
-  [createIndex appendString:@"CREATE INDEX "];
-  [createIndex appendString:[FMDatabase escapeIdentifier:indexName]];
-  [createIndex appendString:@" ON "];
-  [createIndex appendString:[FMDatabase escapeIdentifier:tableName]];
-  [createIndex appendString:@" ("];
+  if (isUnique) [createIndex addObject:@"UNIQUE"];
+  [createIndex addObject:@"INDEX"];
+  [createIndex addObject:[FMDatabase escapeIdentifier:indexName]];
+  [createIndex addObject:@"ON"];
+  [createIndex addObject:[FMDatabase escapeIdentifier:tableName]];
   
-  [columns enumerateObjectsUsingBlock:^(NSString * column, NSUInteger idx, BOOL *stop) {
-    if (idx > 0)
-    {
-      [createIndex appendString:@", "];
-    }
-    [createIndex appendString:column];
-  }];
-
-  [createIndex appendString:@")"];
+  [createIndex addObject:@"("];
+  [createIndex addObject:[columns componentsJoinedByString:@", "]]; 
+  [createIndex addObject:@")"];
   
-  return [self executeUpdate:createIndex
+  return [self executeUpdate:[createIndex componentsJoinedByString:@" "]
                        error:error_p];
 }
+
 
 - (BOOL)dropIndexWithName:(NSString *)indexName
                     error:(NSError **)error_p
