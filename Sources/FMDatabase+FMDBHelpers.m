@@ -575,11 +575,15 @@ withParameterDictionary:(NSDictionary *)arguments
   {
     if (sizeof(NSInteger) == sizeof(long))
     {
-      return [results longForColumnIndex:0];
+        long count = [results longForColumnIndex:0];
+        [results close];
+        return count;
     }
     else
     {
-      return [results intForColumnIndex:0];
+        int count = [results intForColumnIndex:0];
+        [results close];
+        return count;
     }
   }
   else
